@@ -1,10 +1,10 @@
 import React, {useState, useMemo} from 'react';
-import {View, Text, TextInput, FlatList, ScrollView, StyleSheet, FlatList} from 'react-native';
+import {View, Text, TextInput, FlatList, ScrollView, StyleSheet} from 'react-native';
 import { useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Ionicons} from '@expo/vector-icons';
 
-import {useResponsive} from '../hooks/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 import Card from '../components/Card';
 import NivelFiltro from '../components/NivelFiltro';
 import {CLASES, NIVELES} from '../data/clases';
