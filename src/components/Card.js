@@ -10,7 +10,7 @@ export default function Card ({clase, onPress}){
             <Image source={{uri: clase.Image}}/>
             <View>
                 <EtiquetaNivel nivel= {clase.nivel}/>
-                <Text> {clase.titulo} </Text>
+                <Text style={styles.titulo}> {clase.titulo} </Text>
                 <Text> {clase.precio} </Text>
                 <Text> {clase.profesor.nombre} </Text>
             </View>

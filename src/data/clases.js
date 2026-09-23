@@ -51,7 +51,7 @@ export const CLASES = [
   },
 
   {
-    id: '4'
+    id: '4',
     titulo: 'Gramática intermedia',
     nivel: 'Intermedio',
     descripcion:

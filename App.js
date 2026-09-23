@@ -1,20 +1,33 @@
+import react from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import{SafeAreaProvider} from 'react-native-safe-area-context';
+import ClasesStack from './src/navigation/ClasesStack';
+import {colors} from './src/theme';
+
+const temaNavegacion = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors.fondo,
+    card: colors.superficie,
+    primary: colors.primario,
+    text: colors.texto,
+    border: colors.borde,
+  },
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <NavigationContainer theme={temaNavegacion}>
+        <StatusBar
+          style="dark"
+        />
+        <ClasesStack/>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
