@@ -26,10 +26,6 @@ export default function DetalleClase({route, navigation}) {
                     style={[styles.portada, {height: isTable ? 300: 200}]}
                     resizeMode="cover"
                 />
-                <View>
-
-                </View>
-                
 
             </ScrollView>
         </View>
