@@ -1,8 +1,9 @@
-import  React, { createContext, use, useState } from 'react';
+import  React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CLAVE_RESERVAS = 'reservas';
 
-export const ReservasContext = createContext();
+export const ReservasContext = createContext(null);
 
 export default function ReservasProvider({ children }) {
     const [reservas, setReservas] = useState([]);
@@ -10,6 +11,19 @@ export default function ReservasProvider({ children }) {
 
 
     useEffect(() => {
+        const cargar = async ()=>{
+            try{
+                const guardado = await AsyncStorage.getItem(CLAVE_RESERVAS);
+                if(guardado !== null){
+                    setReservas(JSON.parse(guardado))
+                }
+            }catch(error){
+                console.log('error leyendo las reservas: ', error);
+            }finally{
+                setCargando(false);
+            }
+        };
+        cargar();
         if (cargando) return;
         AsyncStorage.setItem(CLAVE_RESERVAS, JSON.stringify(reservas)).catch((error)=>
             console.log('Error al guardar reservas', error)
@@ -45,5 +59,5 @@ export default function ReservasProvider({ children }) {
         actualizarReserva
     }), [reservas, cargando, agregarReserva, cancelarReserva, actualizarReserva]);
 
-    return <ReservasContext.Provider value={valor}> {children} </ReservasContext.Provider>></>
+    return <ReservasContext.Provider value={valor}> {children} </ReservasContext.Provider>
 }
