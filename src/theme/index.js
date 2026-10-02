@@ -6,6 +6,9 @@ export const colors = {
     texto: '#000303',
     borde: '#f29327',
     superficie: '#fefefe',
+    textoSuave: '#6b6b6b',
+    primarioSuave: '#fef0e6',
+    error: '#ff0000'
 };
 
 export const spacing ={
@@ -24,7 +27,8 @@ export const typography ={
 export const radius = {
     sm: 4,
     md: 8,
-    lg: 12
+    lg: 12,
+    pill: 999
 }
 
 export default {colors, spacing, typography, radius};

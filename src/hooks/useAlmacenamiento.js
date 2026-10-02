@@ -34,8 +34,14 @@ export default function useAlmacenamiento(clave, valorInicial){
     );
 
     const eliminar = useCallback(
-        async (valor)=>{
-            
+    async () => {
+        try {
+            await AsyncStorage.removeItem(clave);
+            setValor(valorInicial);
+        } catch (error) {
+            console.log('Error eliminando ' + clave, error);
         }
-    )
+    },
+    [clave, valorInicial]
+);
 };
