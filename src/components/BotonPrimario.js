@@ -1,4 +1,3 @@
-// components/BotonPrimario.js
 import React from 'react';
 import { Text, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
 import { colors, spacing, radius } from '../theme';
@@ -6,7 +5,7 @@ import { colors, spacing, radius } from '../theme';
 export default function BotonPrimario({
   titulo,
   onPress,
-  variante = 'primario', // 'primario' | 'peligro'
+  variante = 'primario', 
   deshabilitado = false,
   cargando = false,
 }) {
