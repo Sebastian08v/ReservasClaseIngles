@@ -13,7 +13,7 @@ const COLORES_NIVEL = {
 const POR_DEFECTO = { fondo: colors.primarioSuave, texto: colors.primario };
 
 // Quita tildes y mayúsculas para que "Básico", "basico" y "BÁSICO" coincidan
-const normalizar = (texto = '') =>
+export const normalizar = (texto = '') =>
   texto
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')

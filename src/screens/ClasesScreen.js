@@ -15,6 +15,7 @@ import useResponsive from '../hooks/useResponsive';
 import Card from '../components/Card';
 import NivelFiltro from '../components/NivelFiltro';
 import EstadoVacio from '../components/EstadoVacio';
+import { normalizar } from '../components/EtiquetaNivel';
 import { CLASES, NIVELES } from '../data/clases';
 import { spacing, typography, colors, radius } from '../theme';
 
@@ -26,13 +27,14 @@ export default function ClasesScreen({ navigation }) {
   const [busqueda, setBusqueda] = useState('');
 
   const resultados = useMemo(() => {
-    const textoBusqueda = busqueda.trim().toLowerCase();
+    const textoBusqueda = normalizar(busqueda);
     return CLASES.filter((clase) => {
       const coincideNivel = nivel === 'Todos' || clase.nivel === nivel;
       const coincideTexto =
         textoBusqueda === '' ||
-        clase.titulo.toLowerCase().includes(textoBusqueda) ||
-        clase.profesor.nombre.toLowerCase().includes(textoBusqueda);
+        normalizar(clase.titulo).includes(textoBusqueda) ||
+        normalizar(clase.profesor.nombre).includes(textoBusqueda);
+
       return coincideNivel && coincideTexto;
     });
   }, [nivel, busqueda]);
