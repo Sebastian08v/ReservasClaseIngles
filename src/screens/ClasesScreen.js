@@ -1,13 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import {View,Text,TextInput,FlatList,ScrollView,Pressable,StyleSheet,} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 

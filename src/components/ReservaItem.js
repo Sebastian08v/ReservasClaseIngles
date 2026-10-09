@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import useResponsive from '../hooks/useResponsive';
 import BotonPrimario from './BotonPrimario';
-import { useReservas } from '../contexts/ReservasContext';
+import useReservas from '../hooks/useReservas';
 import { colors, spacing, radius } from '../theme';
 import { formatearPrecio } from '../data/clases';
 

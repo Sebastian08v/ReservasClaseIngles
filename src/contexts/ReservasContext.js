@@ -1,27 +1,34 @@
-import React, {createContext,useContext,useState,useEffect,useCallback,useMemo} from 'react';
+import React, { createContext, useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const CLAVE_RESERVAS = 'reservas';
+import { useAutenticacion } from '../hooks/useAutenticacion';
 
 export const ReservasContext = createContext(null);
 
-export function useReservas() {
-  const ctx = useContext(ReservasContext);
-  if (!ctx) {
-    throw new Error('useReservas debe usarse dentro de ReservasProvider');
-  }
-  return ctx;
-}
-
 export function ReservasProvider({ children }) {
+  const { usuario } = useAutenticacion();
+  const clave = usuario ? `reservas_${usuario.id}` : null;
+
   const [reservas, setReservas] = useState([]);
   const [cargando, setCargando] = useState(true);
+  // Clave para la que ya se cargaron las reservas; evita guardar datos de un usuario en la clave de otro
+  const cargadaPara = useRef(null);
 
-  // 1. Cargar una sola vez al montar (ignora reservas con formato viejo)
+  // 1. Cargar al montar y cada vez que cambia el usuario
   useEffect(() => {
-    const cargar = async () => {
+    let cancelado = false;
+    cargadaPara.current = null;
+    setReservas([]);
+
+    if (!clave) {
+      setCargando(false);
+      return;
+    }
+
+    setCargando(true);
+    (async () => {
       try {
-        const guardado = await AsyncStorage.getItem(CLAVE_RESERVAS);
+        const guardado = await AsyncStorage.getItem(clave);
+        if (cancelado) return;
         if (guardado !== null) {
           const lista = JSON.parse(guardado);
           setReservas(lista.filter((r) => r.horarioId));
@@ -29,19 +36,24 @@ export function ReservasProvider({ children }) {
       } catch (error) {
         console.log('Error leyendo las reservas:', error);
       } finally {
-        setCargando(false);
+        if (!cancelado) {
+          cargadaPara.current = clave;
+          setCargando(false);
+        }
       }
-    };
-    cargar();
-  }, []);
+    })();
 
-  // 2. Guardar cuando cambien, solo después de haber cargado
+    return () => { cancelado = true; };
+  }, [clave]);
+
+  // 2. Guardar solo si las reservas en memoria corresponden a esta clave
   useEffect(() => {
-    if (cargando) return;
-    AsyncStorage.setItem(CLAVE_RESERVAS, JSON.stringify(reservas)).catch(
-      (error) => console.log('Error al guardar reservas:', error)
+    if (!clave || cargadaPara.current !== clave) return;
+    AsyncStorage.setItem(clave, JSON.stringify(reservas)).catch((error) =>
+      console.log('Error al guardar reservas:', error)
     );
-  }, [reservas, cargando]);
+  }, [reservas, clave]);
+
 
   const agregarReserva = useCallback(
     (clase, horario) => {

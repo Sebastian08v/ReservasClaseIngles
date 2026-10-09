@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import useResponsive from '../hooks/useResponsive';
 import ReservaItem from '../components/ReservaItem';
-import { useReservas } from '../contexts/ReservasContext';
+import useReservas from '../hooks/useReservas';
 import { colors, spacing, sombra, typography, radius } from '../theme';
 
 export default function DetalleClase({ route, navigation }) {
